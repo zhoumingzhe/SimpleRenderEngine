@@ -2,15 +2,14 @@
 #include <VirtualMemory.h>
 #include <new>
 #include <assert.h>
-struct StackFrame
-{
-    
-};
+
+#define OFFSET_OF(type, member) (size_t)&(((type*)0)->member)
 
 template <size_t alignment>
 StackAllocator<alignment>::StackAllocator(size_t total)
 :
-m_totalSize(total)
+m_totalSize(total),
+head{OFFSET_OF(this_type, head), OFFSET_OF(this_type, head)}
 {
 }
 
@@ -53,7 +52,7 @@ StackAllocator<alignment>* StackAllocator<alignment>::CreateStackAllocator(size_
 Allocator* CreateStackAllocator(size_t size, size_t alignment)
 {
     //align to 4K is enough 
-    assert((0 < alignment) && (alignment <= 12) && (alignment & (alignment - 1)) == 0);
+    assert((0 < alignment) && (alignment <= 1<<(12-1)) && (alignment & (alignment - 1)) == 0);
 #define CASE(i) case 1<<(i-1): return StackAllocator< 1<<(i-1) >::CreateStackAllocator(size)
     switch(alignment)
     {
@@ -69,6 +68,7 @@ Allocator* CreateStackAllocator(size_t size, size_t alignment)
         CASE(9);
         CASE(10);
         CASE(12);
+        CASE(13);
         default:
             assert(0);
     }

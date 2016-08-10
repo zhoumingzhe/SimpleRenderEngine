@@ -1,5 +1,11 @@
 #include <Allocator.h>
 
+struct StackFrame
+{
+    size_t prev;
+    size_t next;
+};
+
 template <size_t alignment>
 class StackAllocator: public Allocator
 {
@@ -13,5 +19,8 @@ public:
 
 private:
     size_t m_totalSize;
+    StackFrame head;
+    typedef StackAllocator<alignment> this_type;
+    static_assert((alignment&(alignment-1))==0, "Incorrect alignment");
 };
 
