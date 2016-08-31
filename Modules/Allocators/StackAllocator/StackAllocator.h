@@ -12,9 +12,9 @@ class StackAllocator: public Allocator
 public:
     StackAllocator(size_t total);
     StackAllocator(const StackAllocator& rhs) = delete;
-    void* malloc(size_t size) override;
-    void free(void* mem) override;
-    void destroy() override;
+    void* Malloc(size_t size) override;
+    void Free(void* mem) override;
+    void Destroy() override;
     static StackAllocator* CreateStackAllocator(size_t totalSize);
 
 private:

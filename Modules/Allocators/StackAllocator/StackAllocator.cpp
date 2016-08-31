@@ -14,19 +14,19 @@ head{OFFSET_OF(this_type, head), OFFSET_OF(this_type, head)}
 }
 
 template <size_t alignment>
-void* StackAllocator<alignment>::malloc(size_t size)
+void* StackAllocator<alignment>::Malloc(size_t size)
 {
     return nullptr;
 }
 
 template <size_t alignment>
-void StackAllocator<alignment>::free(void* mem)
+void StackAllocator<alignment>::Free(void* mem)
 {
 
 }
 
 template <size_t alignment>
-void StackAllocator<alignment>::destroy()
+void StackAllocator<alignment>::Destroy()
 {
     FreeVirtualMemory(this, m_totalSize);
 }
