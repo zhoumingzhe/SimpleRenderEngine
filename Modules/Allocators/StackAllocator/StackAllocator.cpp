@@ -67,7 +67,7 @@ void StackAllocator::Free(void* mem)
         last = ptr;
         ptr = ptr->Ptr();
     }
-    m_pLast = ptr;
+    m_pLast = last;
 }
 
 void StackAllocator::Destroy()
