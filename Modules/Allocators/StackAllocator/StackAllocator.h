@@ -1,26 +1,43 @@
 #include <Allocator.h>
-
-struct StackFrame
+class StackFrame
 {
-    size_t prev;
-    size_t next;
+    size_t frame;
+public:
+    bool Used()
+    {
+        return frame & 1;
+    }
+
+    void Used(bool bUsed)
+    {
+        frame = (frame & ~size_t(1)) | size_t(!!bUsed);
+    }
+
+    StackFrame* Ptr()
+    {
+        return (StackFrame*)(frame & ~size_t(1));
+    }
+
+    void Ptr(StackFrame * ptr);
 };
 
-template <size_t alignment>
 class StackAllocator: public Allocator
 {
 public:
     StackAllocator(size_t total);
     StackAllocator(const StackAllocator& rhs) = delete;
+
+    ~StackAllocator();
+
     void* Malloc(size_t size) override;
     void Free(void* mem) override;
     void Destroy() override;
+
     static StackAllocator* CreateStackAllocator(size_t totalSize);
 
 private:
     size_t m_totalSize;
-    StackFrame head;
-    typedef StackAllocator<alignment> this_type;
-    static_assert((alignment&(alignment-1))==0, "Incorrect alignment");
+    StackFrame* m_pLast;
 };
+
 

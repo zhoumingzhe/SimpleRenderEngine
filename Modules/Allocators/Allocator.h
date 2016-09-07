@@ -8,4 +8,4 @@ public:
     virtual void Destroy() = 0;
 };
 
-Allocator* CreateStackAllocator(size_t size, size_t alignment);
+Allocator* CreateStackAllocator(size_t size);
