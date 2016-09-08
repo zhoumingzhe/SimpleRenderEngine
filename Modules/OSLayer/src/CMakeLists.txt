@@ -1,2 +1,5 @@
-
-add_subdirectory(posix)
+if(MSVC)
+    add_subdirectory(win32)
+else()
+    add_subdirectory(posix)
+endif()

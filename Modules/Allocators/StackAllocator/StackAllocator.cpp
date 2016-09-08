@@ -41,7 +41,7 @@ void* StackAllocator::Malloc(size_t size)
     uint8_t* mem = (uint8_t*)(m_pLast) + align_up(sizeof(StackFrame), 2);
     uint8_t* tail = mem + size;
 
-    if(tail - (uint8_t*)this > m_totalSize)
+    if(tail - (uint8_t*)this > (ptrdiff_t)m_totalSize)
     {
         //TODO: Error report
         return nullptr;
