@@ -11,9 +11,9 @@ void* AllocateVirtualMemory(size_t size)
     return addr;
 }
 
-void FreeVirtualMemory(void* mem, size_t size)
+void FreeVirtualMemory(void* mem, size_t)
 {
-    if(!VirtualFree(mem, size, MEM_RELEASE) != 0)
+    if(!VirtualFree(mem, 0, MEM_RELEASE))
     {
         printf("Error VirtualFree£º %lu", GetLastError());
         return;
