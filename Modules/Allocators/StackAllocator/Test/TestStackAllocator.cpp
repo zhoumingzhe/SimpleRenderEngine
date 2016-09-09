@@ -3,9 +3,20 @@
 TEST(TestStackAllocator, test)
 {
     Allocator* pAllocator = CreateStackAllocator(4096*16);
-    void * mem = pAllocator->Malloc(16);
-    ASSERT_NE(nullptr, mem);
-    memset(mem, 0, 16);
-    pAllocator->Free(mem);
+    void* mem1 = pAllocator->Malloc(16);
+    ASSERT_NE(nullptr, mem1);
+    memset(mem1, 0, 16);
+
+    void* mem2 = pAllocator->Malloc(32);
+    ASSERT_NE(nullptr, mem2);
+    memset(mem2, 0, 16);
+
+    void* mem3 = pAllocator->Malloc(48);
+    ASSERT_NE(nullptr, mem3);
+    memset(mem3, 0, 16);
+    pAllocator->Free(mem1);
+    pAllocator->Free(mem2);
+    pAllocator->Free(mem3);
+
     pAllocator->Destroy();
 }
