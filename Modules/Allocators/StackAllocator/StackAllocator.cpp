@@ -77,6 +77,13 @@ void StackAllocator::Destroy()
     FreeVirtualMemory(this, size);
 }
 
+#if SRE_DBG
+bool StackAllocator::Check()
+{
+
+    return false;
+}
+#endif
 StackAllocator* StackAllocator::CreateStackAllocator(size_t totalSize)
 {
     void* mem = AllocateVirtualMemory(totalSize);
@@ -86,7 +93,7 @@ StackAllocator* StackAllocator::CreateStackAllocator(size_t totalSize)
     }
     else
     {
-        //TODO: error reporting
+        //error reporting already included in AllocateVirtualMemory
         return nullptr;
     }
 }

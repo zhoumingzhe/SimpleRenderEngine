@@ -33,6 +33,10 @@ public:
     void Free(void* mem) override;
     void Destroy() override;
 
+#if SRE_DBG
+    virtual bool Check();
+#endif
+
     static StackAllocator* CreateStackAllocator(size_t totalSize);
 
 private:
