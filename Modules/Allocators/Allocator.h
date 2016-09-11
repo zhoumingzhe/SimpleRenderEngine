@@ -7,6 +7,8 @@ public:
     virtual void Free(void* mem) = 0;
     virtual void Destroy() = 0;
 #if SRE_DBG
+    //Returns true if no error(leak or corruption) is found
+    //otherwise false
     virtual bool Check() = 0;
 #endif
 };

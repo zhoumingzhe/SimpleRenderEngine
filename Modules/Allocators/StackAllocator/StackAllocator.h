@@ -40,6 +40,7 @@ public:
     static StackAllocator* CreateStackAllocator(size_t totalSize);
 
 private:
+    StackFrame* BaseLocation();
     size_t m_totalSize;
     StackFrame* m_pLast;
 };

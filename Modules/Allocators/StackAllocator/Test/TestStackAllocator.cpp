@@ -16,7 +16,14 @@ TEST(TestStackAllocator, test)
     memset(mem3, 0, 16);
     pAllocator->Free(mem1);
     pAllocator->Free(mem2);
+#if SRE_DBG
+    ASSERT_FALSE(pAllocator->Check());
+#endif
     pAllocator->Free(mem3);
 
+#if SRE_DBG
+    ASSERT_NE(false, pAllocator->Check());
+#endif
     pAllocator->Destroy();
+    
 }
