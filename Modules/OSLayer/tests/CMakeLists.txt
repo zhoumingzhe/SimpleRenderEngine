@@ -1,3 +1,5 @@
-include_directories(../inc)
 add_executable(TestVirtualMemory TestVirtualMemory.cpp)
 target_link_libraries(TestVirtualMemory OSLayer)
+
+add_executable(TestBackTrace TestBackTrace.cpp)
+target_link_libraries(TestBackTrace OSLayer)
