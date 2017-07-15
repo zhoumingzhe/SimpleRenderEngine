@@ -3,3 +3,6 @@ target_link_libraries(TestVirtualMemory OSLayer)
 
 add_executable(TestBackTrace TestBackTrace.cpp)
 target_link_libraries(TestBackTrace OSLayer)
+
+add_executable(TestDebugSymbol TestDebugSymbol.cpp)
+target_link_libraries(TestDebugSymbol OSLayer)

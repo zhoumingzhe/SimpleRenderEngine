@@ -28,17 +28,6 @@ else()
     set(SRE_COMMAND_LINE_DEFS "${SRE_COMMAND_LINE_DEFS} -DSRE_DBG=0")
 endif()
 add_definitions("${SRE_COMMAND_LINE_DEFS}")
-message(
-${CMAKE_CXX_FLAGS}                    "\n"
-${CMAKE_CXX_FLAGS_DEBUG}              "\n"
-${CMAKE_CXX_FLAGS_RELEASE}            "\n"
-${CMAKE_CXX_FLAGS_MINSIZEREL}         "\n"
-${CMAKE_CXX_FLAGS_RELWITHDEBINFO}     "\n"
-${CMAKE_C_FLAGS}                      "\n"
-${CMAKE_C_FLAGS_DEBUG}                "\n"
-${CMAKE_C_FLAGS_RELEASE}              "\n"
-${CMAKE_C_FLAGS_MINSIZEREL}           "\n"
-${CMAKE_C_FLAGS_RELWITHDEBINFO}       "\n"
-)
+
 add_subdirectory(Modules)
 add_subdirectory(Imported)
