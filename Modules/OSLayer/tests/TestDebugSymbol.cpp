@@ -1,7 +1,8 @@
-#include <DebugSymbol.h>
+#include <DebugInformationLibrary.h>
 int main(int argc, char** argv)
 {
-    DebugInfo* pDebugInfo = LoadDebugInfo("/lib/x86_64-linux-gnu/libc-2.23.so");
-    CloseDebugInfo(pDebugInfo);
+    DebugInformationLibrary* pDebugInfoLib = InitializeDebugInformationLibrary();
+
+    CleanupDebugInformation(pDebugInfoLib);
     return 0;
 }
