@@ -5,6 +5,7 @@
 #include <dlfcn.h>
 #include <assert.h>
 #include <cxxabi.h>
+#include <stdarg.h>
 
 struct DebugInfo
 {
@@ -25,6 +26,14 @@ extern DebugInformationLibrary* (*fnInitializeDebugInformationLibrary)();
 
 static void bfd_error_handler(const char *, va_list va)
 {
+}
+
+static void bfd_error_handler(const char * c, ...)
+{
+    va_list args;
+    va_start(args, c);
+    bfd_error_handler(c, args);
+    va_end(args);
 }
 
 template<bool globalInit>
