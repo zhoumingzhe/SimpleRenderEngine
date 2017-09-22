@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
-int main(int argc, char** argv)
+int main(int, char**)
 {
     void* buffer[64] = {};
     size_t size = GetBackTrace(buffer, sizeof(buffer)/sizeof(buffer[0]));
