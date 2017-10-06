@@ -32,7 +32,7 @@ void CleanupDebugInformation(DebugInformationLibrary* pLibrary)
     delete pLibrary;
 }
 
-bool TranslateDebugInfo(DebugInformationLibrary*, void* addr, const char** file, size_t* line, const char** symbolName)
+bool TranslateDebugInfo(DebugInformationLibrary*, void* addr, char* file, size_t fileLength, size_t* line, char* symbolName, size_t symbolLength)
 {
     DWORD64 displacement64 = 0;
     char buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
@@ -51,17 +51,14 @@ bool TranslateDebugInfo(DebugInformationLibrary*, void* addr, const char** file,
         return false;
     }
 
-    *file = linedata.FileName;
+    strncpy(file, linedata.FileName, fileLength);
     *line = linedata.LineNumber;
-    *symbolName = pSymbol->Name;
-
+    strncpy(symbolName, pSymbol->Name, symbolLength);
     return true;
 }
 
-char* Demangle(DebugInformationLibrary*, const char* symbolName)
+bool Demangle(DebugInformationLibrary*, const char* symbolName, char* demangled, size_t demangledLength)
 {
-    size_t len = strlen(symbolName) + 1;
-    char* ret = (char*)malloc(len);
-    strcpy(ret, symbolName);
-    return ret;
+    strncpy(demangled, symbolName, demangledLength);
+    return true;
 }
