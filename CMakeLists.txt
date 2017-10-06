@@ -15,6 +15,7 @@ if(MSVC)
 
     set(EXTRA_CXX_FLAGS)
     set(EXTRA_C_FLAGS "/WX /MP")
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 else()
     set(EXTRA_CXX_FLAGS "-std=c++11")
     set(EXTRA_C_FLAGS "-Wall -Werror")

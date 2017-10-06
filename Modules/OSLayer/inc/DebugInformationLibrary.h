@@ -6,6 +6,6 @@ DebugInformationLibrary* InitializeDebugInformationLibrary();
 
 void CleanupDebugInformation(DebugInformationLibrary* pDebugInfoLibrary);
 
-bool TranslateDebugInfo(DebugInformationLibrary* pDebugInfoLibrary, void* addr, const char** file, size_t* line, const char** symbolName);
+bool TranslateDebugInfo(DebugInformationLibrary* pDebugInfoLibrary, void* addr, char* file, size_t fileLength, size_t* line, char* symbolName, size_t symbolLenth);
 
-char* Demangle(DebugInformationLibrary* pDebugInfoLibrary, const char* symbolName);
+bool Demangle(DebugInformationLibrary* pDebugInfoLibrary, const char* symbolName, char* demangled, size_t demangledLength);
