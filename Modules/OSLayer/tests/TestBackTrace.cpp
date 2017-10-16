@@ -22,8 +22,8 @@ int main(int, char**)
         if (TranslateDebugInfo(pDebugInfo, buffer[i], file, countof(file) - 1, &line, symbolName, countof(symbolName) - 1))
         {
             char demangled[1024];
-            Demangle(pDebugInfo, symbolName, demangled, countof(demangled) - 1);
-            printf("[%s] %s, %s:%zu\n", demangled?"C++":"C", demangled?demangled:symbolName, file, line);
+            bool success = Demangle(pDebugInfo, symbolName, demangled, countof(demangled) - 1);
+            printf("[%s] %s, %s:%zu\n", success?"C++":"C", success?demangled:symbolName, file, line);
         }
     }
     CleanupDebugInformation(pDebugInfo);

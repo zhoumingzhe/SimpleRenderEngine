@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <cxxabi.h>
 #include <stdarg.h>
+#include <string.h>
 
 struct DebugInfo
 {
@@ -115,10 +116,10 @@ DebugInfo* LoadDebugInfo(const char* module)
     return pDebugInfo;
 }
 
-bool TranslateDebugInfo(DebugInfo* pDebugInfo, void* addr, const char** ppFileName, size_t* pLine, const char** ppSymbolName)
+bool TranslateDebugInfo(DebugInfo* pDebugInfo, void* addr, char* file, size_t fileLength, size_t* pLine, char* symbolName, size_t symbolLength)
 {
     bfd_vma vma = (bfd_vma)addr;
-    bfd* pBfd = pDebugInfo->pBfd; 
+    bfd* pBfd = pDebugInfo->pBfd;
     // We never hit the code below on x86_64 linux.
     // Comment out for now.
     //if (bfd_get_flavour (pBfd) == bfd_target_elf_flavour)  
@@ -151,10 +152,14 @@ bool TranslateDebugInfo(DebugInfo* pDebugInfo, void* addr, const char** ppFileNa
             continue;
         }
 
+        const char* pFileName = nullptr;
+        const char* pSymbolName = nullptr;
         unsigned int line = 0;
         if (1 == bfd_find_nearest_line(pBfd, pSect, pDebugInfo->bfdSymbol.data(), vma - pSect->vma,  
-                                               ppFileName, ppSymbolName, &line)) 
+                                               &pFileName, &pSymbolName, &line)) 
         {
+            strncpy(file, pFileName, fileLength);
+            strncpy(symbolName, pSymbolName, symbolLength);
             *pLine = line;
             return true;
         }
@@ -162,7 +167,7 @@ bool TranslateDebugInfo(DebugInfo* pDebugInfo, void* addr, const char** ppFileNa
     return false;
 }
 
-bool TranslateDebugInfo(DebugInformationLibrary* pDebugInfoLibrary, void* addr, const char** file, size_t* line, const char** symbolName)
+bool TranslateDebugInfo(DebugInformationLibrary* pDebugInfoLibrary, void* addr, char* file, size_t fileLength, size_t* line, char* symbolName, size_t symbolLength)
 {
     const char* moduleName = GetModuleName(addr);
     if(moduleName == nullptr)
@@ -180,11 +185,17 @@ bool TranslateDebugInfo(DebugInformationLibrary* pDebugInfoLibrary, void* addr, 
     else
         pDebugInfo = iter->second;
     
-    return TranslateDebugInfo(pDebugInfo, addr, file, line, symbolName);
+    return TranslateDebugInfo(pDebugInfo, addr, file, fileLength, line, symbolName, symbolLength);
 }
 
-char* Demangle(DebugInformationLibrary* , const char* symbolName)
+bool Demangle(DebugInformationLibrary* pDebugInfoLibrary, const char* symbolName, char* demangled, size_t demangledLength)
 {
     int status = 0;
-    return __cxxabiv1::__cxa_demangle(symbolName, 0, 0, &status);
+    const char* result = __cxxabiv1::__cxa_demangle(symbolName, 0, 0, &status);
+    if(result)
+    {
+        strncpy(demangled, result, demangledLength);
+        return true;
+    }
+    return false;
 }
