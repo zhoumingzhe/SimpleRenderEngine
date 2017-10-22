@@ -25,11 +25,11 @@ struct DebugInformationLibrary
 
 extern DebugInformationLibrary* (*fnInitializeDebugInformationLibrary)();
 
-static void bfd_error_handler(const char *, va_list va)
+void bfd_error_handler(const char *, va_list va)
 {
 }
 
-static void bfd_error_handler(const char * c, ...)
+void bfd_error_handler(const char * c, ...)
 {
     va_list args;
     va_start(args, c);
